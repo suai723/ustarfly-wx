@@ -5,7 +5,7 @@
          version="3.1">
     <servlet>
         <servlet-name>Servlet</servlet-name>
-        <servlet-class>com.sa.Servlet</servlet-class>
+        <servlet-class>com.sa.Servlet.CoreServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Servlet</servlet-name>

@@ -1,4 +1,4 @@
-package com.sa;
+package com.sa.Servlet;
 
 import com.sa.Service.CoreService;
 import com.sa.util.SignUtil;
@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 /**
  * Created by sa on 14-11-25.
  */
-public class Servlet extends HttpServlet {
+public class CoreServlet extends HttpServlet {
 
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

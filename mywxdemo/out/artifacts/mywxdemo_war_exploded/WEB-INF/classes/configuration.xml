@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <!--给实体类起一个别名-->
+        <typeAlias type="com.sa.bean.resp.TextMessage" alias="RespTestMessage" />
+        <typeAlias type="com.sa.bean.resp.NewsMessage" alias="RespNewsMessage" />
+        <typeAlias type="com.sa.bean.resp.MusicMessage" alias="RespMusicMessage" />
+        <typeAlias type="com.sa.bean.req.ImageMessage" alias="ReqImageMessage"/>
+        <typeAlias type="com.sa.bean.req.LinkMessage" alias="ReqLinkMessage"/>
+        <typeAlias type="com.sa.bean.req.LocationMessage" alias="ReqLocationMessage"/>
+        <typeAlias type="com.sa.bean.req.TextMessage" alias="ReqTextMessage"/>
+        <typeAlias type="com.sa.bean.req.VoiceMessage" alias="ReqVoiceMessage"/>
+        <typeAlias type="com.sa.bean.resp.Article" alias="Article" />
+        <typeAlias type="com.sa.bean.resp.Music" alias="Music"/>
+
+    </typeAliases>
+    <!--数据源配置  这块用 MYSQL数据库 -->
+    <environments default="test">
+        <environment id="development">
+            <transactionManager type="jdbc" />
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver " />
+                <property name="url" value="jdbc:mysql://123.57.39.190:3306/wxtest?useUnicode=true&amp;characterEncoding=utf-8" />
+                <property name="username" value="root" />
+                <property name="password" value="System797836" />
+            </dataSource>
+        </environment>
+
+        <environment id="test">
+            <transactionManager type="jdbc" />
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver " />
+                <property name="url" value="jdbc:mysql://localtest:3306/test?useUnicode=true&amp;characterEncoding=utf-8" />
+                <property name="username" value="root" />
+                <property name="password" value="root" />
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <!--testMapper.xml.xml装载进来  同等于把“dao”的实现装载进来 -->
+        <mapper resource="mapper/testMapper.xml" />
+    </mappers>
+</configuration>

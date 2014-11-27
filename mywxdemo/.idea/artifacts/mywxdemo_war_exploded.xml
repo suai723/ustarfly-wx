@@ -7,6 +7,10 @@
         <element id="directory" name="classes">
           <element id="module-output" name="mywxdemo" />
         </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="com.thoughtworks.xstream:xstream:1.3.1" />
+          <element id="library" level="project" name="dom4j-1.6.1" />
+        </element>
       </element>
     </root>
   </artifact>
