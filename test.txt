@@ -2,3 +2,5 @@
 20141126
 1、远程调试需要进tomcat中logs下来看
 2、当工程中用到jar包时要将jar包放到云主机tomcat根目录下的lib文件夹内
+20141130
+1、远程部署出现错误 要把idea中tomcat配置 update action更改为 重新部署 不能是热部署
