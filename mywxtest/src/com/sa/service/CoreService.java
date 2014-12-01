@@ -22,7 +22,7 @@ import java.util.Map;
 public class CoreService {
     private static Logger logger = Logger.getLogger(CoreService.class);
     private static SqlSession sqlSession = getSessionFactory().openSession();
-    private  static TextService textService =TextService.getTextService(sqlSession);
+    private static TextService textService =TextService.getTextService(sqlSession);
     private static SqlSessionFactory getSessionFactory() {
         SqlSessionFactory sessionFactory = null;
         String resource = "configuration.xml";
