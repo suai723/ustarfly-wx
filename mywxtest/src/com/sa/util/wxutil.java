@@ -22,9 +22,10 @@ import java.net.URL;
  * Created by sa on 14-12-1.
  */
 public class wxutil {
-    private static Logger log = Logger.getLogger(wxutil.class);
+    //private static Logger log = Logger.getLogger(wxutil.class);
     public static JSONObject httpsRequest(String requestUrl, String requestMethod, String outputStr) {
         JSONObject jsonObject = null;
+        HttpsURLConnection httpUrlConn =null;
         StringBuffer buffer = new StringBuffer();
         try {
             // 创建SSLContext对象，并使用我们指定的信任管理器初始化
@@ -35,7 +36,7 @@ public class wxutil {
             SSLSocketFactory ssf = sslContext.getSocketFactory();
 
             URL url = new URL(requestUrl);
-            HttpsURLConnection httpUrlConn = (HttpsURLConnection) url.openConnection();
+            httpUrlConn = (HttpsURLConnection) url.openConnection();
             httpUrlConn.setSSLSocketFactory(ssf);
 
             httpUrlConn.setDoOutput(true);
@@ -69,13 +70,27 @@ public class wxutil {
             // 释放资源
             inputStream.close();
             inputStream = null;
-            httpUrlConn.disconnect();
+
             jsonObject = JSONObject.fromObject(buffer.toString());
-        } catch (ConnectException ce) {
-            log.error("Weixin server connection timed out.");
+        } catch (ConnectException e) {
+            e.printStackTrace();
+            //log.error("Weixin server connection timed out.");
         } catch (Exception e) {
-            log.error("https request error:{}", e);
+            e.printStackTrace();
+            //log.error("https request error:{}", e);
+        }finally {
+            httpUrlConn.disconnect();
         }
         return jsonObject;
+    }
+
+
+    public static JSONObject getAccessToken(){
+        String appId="wxc2c284ba6cb8344e";
+        String appSecret="13981decd3da850c7cfab546a9a7d750";
+        String url="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+appId+"&secret="+appSecret;
+        JSONObject jsonObject = httpsRequest(url,"GET",null);
+        return jsonObject;
+
     }
 }
