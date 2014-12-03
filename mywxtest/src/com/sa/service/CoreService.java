@@ -1,8 +1,10 @@
 package com.sa.service;
 
+import com.sa.bean.AccessToken;
 import com.sa.bean.resp.TextMessage;
 import com.sa.dao.testMapper;
 import com.sa.util.MessageUtil;
+import com.sa.util.wxutil;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -21,8 +23,10 @@ import java.util.Map;
  */
 public class CoreService {
     private static Logger logger = Logger.getLogger(CoreService.class);
+    private static AccessToken at=null;
     private static SqlSession sqlSession = getSessionFactory().openSession();
     private static TextService textService =TextService.getTextService(sqlSession);
+
     private static SqlSessionFactory getSessionFactory() {
         SqlSessionFactory sessionFactory = null;
         String resource = "configuration.xml";
@@ -37,15 +41,18 @@ public class CoreService {
     }
 
     public static String processRequest(HttpServletRequest request){
+        if(at==null){
+            at=wxutil.getAccessToken();
+        }else if(System.currentTimeMillis()>=at.getEndTime()){
+            at=wxutil.getAccessToken();
+        }
         String respMessage = null;
-
         try {
+            String eventName =null;
             // 默认返回的文本消息内容
             String respContent = "请求处理异常，请稍候尝试！";
-
             // xml请求解析
             Map<String,String> requestMap  = MessageUtil.ParsXml(request);
-
             // 发送方帐号（open_id）
             String fromUserName = requestMap.get("FromUserName");
             // 公众帐号
@@ -53,6 +60,9 @@ public class CoreService {
             // 消息类型
             String msgType = requestMap.get("MsgType");
             String msgContent  = requestMap.get("Content");
+            if (msgType.equals("event")){
+               eventName = requestMap.get("Event");
+            }
 
             // 回复文本消息
             TextMessage textMessage = new TextMessage();
@@ -61,7 +71,6 @@ public class CoreService {
             textMessage.setCreateTime(new Date().getTime());
             textMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
             textMessage.setFuncFlag(0);
-            textMessage.setContent(msgContent);
 
             // 文本消息
             if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_TEXT)) {

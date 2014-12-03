@@ -1,6 +1,7 @@
 package com.sa.util;
 
 
+import com.sa.bean.AccessToken;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggerFactory;
@@ -22,7 +23,7 @@ import java.net.URL;
  * Created by sa on 14-12-1.
  */
 public class wxutil {
-    //private static Logger log = Logger.getLogger(wxutil.class);
+    private static Logger log = Logger.getLogger(wxutil.class);
     public static JSONObject httpsRequest(String requestUrl, String requestMethod, String outputStr) {
         JSONObject jsonObject = null;
         HttpsURLConnection httpUrlConn =null;
@@ -73,11 +74,9 @@ public class wxutil {
 
             jsonObject = JSONObject.fromObject(buffer.toString());
         } catch (ConnectException e) {
-            e.printStackTrace();
-            //log.error("Weixin server connection timed out.");
+            log.error("Weixin server connection timed out.");
         } catch (Exception e) {
-            e.printStackTrace();
-            //log.error("https request error:{}", e);
+            log.error("https request error:{}", e);
         }finally {
             httpUrlConn.disconnect();
         }
@@ -85,12 +84,20 @@ public class wxutil {
     }
 
 
-    public static JSONObject getAccessToken(){
+    public static AccessToken getAccessToken(){
         String appId="wxc2c284ba6cb8344e";
         String appSecret="13981decd3da850c7cfab546a9a7d750";
         String url="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+appId+"&secret="+appSecret;
         JSONObject jsonObject = httpsRequest(url,"GET",null);
-        return jsonObject;
+        AccessToken at = new AccessToken();
+        at.setStartTime(System.currentTimeMillis());
+        at.setToken(jsonObject.getString("access_token"));
+        at.setExpiresIn(jsonObject.getString("expires_in"));
+        //at.setEndTime(at.getStartTime()+Long.parseLong((String) jsonObject.get("expires_in")));
+//        long MillisTime=System.currentTimeMillis();
+//        jsonObject.put("StratTime",MillisTime);
+//        jsonObject.put("EndTime",MillisTime+Long.parseLong((String) jsonObject.get("expires_in")));
+        return at;
 
     }
 }
