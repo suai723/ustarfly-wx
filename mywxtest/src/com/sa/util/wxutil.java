@@ -93,7 +93,7 @@ public class wxutil {
         at.setStartTime(System.currentTimeMillis());
         at.setToken(jsonObject.getString("access_token"));
         at.setExpiresIn(jsonObject.getString("expires_in"));
-        //at.setEndTime(at.getStartTime()+Long.parseLong((String) jsonObject.get("expires_in")));
+        at.setEndTime(at.getStartTime()+Long.parseLong((String) jsonObject.get("expires_in")));
 //        long MillisTime=System.currentTimeMillis();
 //        jsonObject.put("StratTime",MillisTime);
 //        jsonObject.put("EndTime",MillisTime+Long.parseLong((String) jsonObject.get("expires_in")));

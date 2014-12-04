@@ -19,6 +19,6 @@ public class AccessTokenTest {
 
         AccessToken at =wxutil.getAccessToken();
         Ticket ticket = CodeUtil.getTicket(at,null);
-        String s = CodeUtil.getCode(ticket);
+        JSONObject s = CodeUtil.getCode(ticket);
     }
 }
